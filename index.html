@@ -1,58 +1,46 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>Смета ГП STRUCTURE PRO</title>
+<title>Смета ГП — Банк + Управленка</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <style>
-:root{
---bg:#0b1020;
---card:#121a33;
---text:#e9eeff;
---muted:#9aa7c7;
---ok:#22c55e;
---bad:#ef4444;
---mono:ui-monospace,Consolas,monospace;
-}
-body{margin:0;background:linear-gradient(120deg,#070a14,#0b1020);color:var(--text);font-family:system-ui;}
-.wrap{max-width:1600px;margin:30px auto;padding:0 20px;}
-.card{background:rgba(18,26,51,.9);border-radius:14px;padding:18px;margin-bottom:18px}
+body{background:#0b1020;color:#e9eeff;font-family:system-ui;margin:0}
+.wrap{max-width:1600px;margin:30px auto;padding:0 20px}
+.card{background:#121a33;border-radius:12px;padding:18px;margin-bottom:20px}
 h1{font-size:20px}
-h2{font-size:14px;color:#cfe0ff}
-.row{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:8px}
-input,select{width:100%;padding:8px;border-radius:8px;border:1px solid #334155;background:#0b1229;color:white}
-table{width:100%;border-collapse:collapse;font-size:13px}
+h2{font-size:14px;color:#9fbfff}
+table{width:100%;border-collapse:collapse}
 td,th{padding:8px;border-bottom:1px solid #334155;text-align:right}
 th{text-align:left}
-.ok{color:var(--ok)}
-.bad{color:var(--bad)}
-button{padding:8px 12px;border-radius:8px;border:none;background:#1e40af;color:white;cursor:pointer;margin-top:10px;margin-right:10px}
+input,select{width:100%;padding:6px;background:#0b1229;border:1px solid #334155;color:white;border-radius:6px}
+button{padding:8px 12px;background:#1e40af;border:none;color:white;border-radius:6px;margin-top:10px;cursor:pointer}
+.ok{color:#22c55e}
 </style>
 </head>
-
 <body>
 <div class="wrap">
 
-<h1>Формирование сметы Генподрядчика (структурная модель)</h1>
+<h1>Смета Генподрядчика — Банковский и Управленческий контур</h1>
 
 <div class="card">
-<h2>1️⃣ Бюджет проекта — Глава 2</h2>
-
-<div class="row"><label>Глава 2</label><input id="budget" value="613 842 008"></div>
-<div class="row"><label>2.6</label><input id="g26" value="4 000 000"></div>
-<div class="row"><label>2.7</label><input id="g27" value="44 830 000"></div>
-<div class="row"><label>2.8</label><input id="g28" value="26 806 612"></div>
-<div class="row"><label>2.9</label><input id="g29" value="50 903 148"></div>
-
+<h2>Банк — структура 2.1–2.5 (столбец C)</h2>
+<table>
+<tr><th>Статья</th><th>Сумма</th></tr>
+<tr><td>2.1</td><td id="b21"></td></tr>
+<tr><td>2.2.1</td><td id="b221"></td></tr>
+<tr><td>2.2.2</td><td id="b222"></td></tr>
+<tr><td>2.3</td><td id="b23"></td></tr>
+<tr><td>2.4</td><td id="b24"></td></tr>
+<tr><td>2.5</td><td id="b25"></td></tr>
+<tr><th>ИТОГО</th><th id="bTotal"></th></tr>
+</table>
 </div>
 
 <div class="card">
-<h2>2️⃣ Прямые оплаты поставщикам</h2>
+<h2>Прямые договоры поставщиков</h2>
 <table id="supplierTable">
 <thead>
 <tr>
-<th>Поставщик</th>
-<th>Договор</th>
 <th>Статья</th>
 <th>Сумма</th>
 <th></th>
@@ -60,44 +48,33 @@ button{padding:8px 12px;border-radius:8px;border:none;background:#1e40af;color:w
 </thead>
 <tbody></tbody>
 </table>
-<button onclick="addSupplier()">Добавить строку</button>
+<button onclick="addSupplier()">Добавить</button>
 </div>
 
 <div class="card">
-<h2>3️⃣ Параметры ГП</h2>
-<div class="row"><label>Накладные (%)</label><input id="overhead" value="10"></div>
-<div class="row"><label>Прибыль (%)</label><input id="profit" value="6"></div>
-</div>
-
-<div class="card">
-<h2>4️⃣ Расчет лимита договора ГП</h2>
+<h2>Банковская смета после исключения прямых договоров</h2>
 <table>
-<tr><th>Лимит договора ГП</th><td id="o_limit"></td></tr>
-<tr><th>Прямые</th><td id="o_direct"></td></tr>
-<tr><th>Накладные</th><td id="o_oh"></td></tr>
-<tr><th>Прибыль</th><td id="o_profit"></td></tr>
-<tr><th><b>Итого договор</b></th><td id="o_total"></td></tr>
+<tr><th>2.1</th><td id="r21"></td></tr>
+<tr><th>2.2.1</th><td id="r221"></td></tr>
+<tr><th>2.2.2</th><td id="r222"></td></tr>
+<tr><th>2.3</th><td id="r23"></td></tr>
+<tr><th>2.4</th><td id="r24"></td></tr>
+<tr><th>2.5</th><td id="r25"></td></tr>
+<tr><th>ИТОГО</th><th id="rTotal"></th></tr>
 </table>
 </div>
 
 <div class="card">
-<h2>5️⃣ Структура сметы ГП (2.1–2.5)</h2>
-<table id="structureTable">
-<thead>
-<tr>
-<th>Статья</th>
-<th>Сумма</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>2.1 Подготовительный период</td><td id="s21"></td></tr>
-<tr><td>2.2.1 Внутренняя отделка</td><td id="s221"></td></tr>
-<tr><td>2.2.2 Общестроительные работы</td><td id="s222"></td></tr>
-<tr><td>2.3 Внутренние инженерные системы</td><td id="s23"></td></tr>
-<tr><td>2.4 Наружные инженерные сети</td><td id="s24"></td></tr>
-<tr><td>2.5 Благоустройство</td><td id="s25"></td></tr>
-<tr><th>ИТОГО</th><th id="s_total"></th></tr>
-</tbody>
+<h2>Управленческий анализ</h2>
+<label>Накладные (%)</label>
+<input id="oh" value="10">
+<label>Прибыль (%)</label>
+<input id="pr" value="6">
+<table>
+<tr><th>Direct cost</th><td id="uDirect"></td></tr>
+<tr><th>Накладные</th><td id="uOh"></td></tr>
+<tr><th>Прибыль</th><td id="uPr"></td></tr>
+<tr><th>ИТОГО</th><th id="uTotal"></th></tr>
 </table>
 </div>
 
@@ -107,14 +84,20 @@ button{padding:8px 12px;border-radius:8px;border:none;background:#1e40af;color:w
 
 <script>
 
-function n(v){return parseInt(v.toString().replace(/\s/g,''))||0}
-function f(x){return x.toLocaleString("ru-RU")+" ₽"}
+let baseStructure = {
+"2.1": 49828259.44,
+"2.2.1": 31866900,
+"2.2.2": 293672177.26,
+"2.3": 61448739.90,
+"2.4": 29310429,
+"2.5": 21175742.35
+};
+
+function f(x){return Math.round(x).toLocaleString("ru-RU")+" ₽"}
 
 function addSupplier(){
-let row=document.createElement("tr")
+let row=document.createElement("tr");
 row.innerHTML=`
-<td><input></td>
-<td><input></td>
 <td>
 <select>
 <option value="2.1">2.1</option>
@@ -126,66 +109,50 @@ row.innerHTML=`
 </select>
 </td>
 <td><input oninput="calculate()"></td>
-<td><button onclick="this.parentElement.parentElement.remove();calculate()">X</button></td>`
-document.querySelector("#supplierTable tbody").appendChild(row)
+<td><button onclick="this.parentElement.parentElement.remove();calculate()">X</button></td>`;
+document.querySelector("#supplierTable tbody").appendChild(row);
 }
 
 function calculate(){
 
-let base=n(budget.value)-n(g26.value)-n(g27.value)-n(g28.value)-n(g29.value)
+let adjusted = {...baseStructure};
 
-let supplierTotal=0
-let structure={
-"2.1":0,"2.2.1":0,"2.2.2":0,"2.3":0,"2.4":0,"2.5":0
-}
-
+// вычитаем прямые договоры
 document.querySelectorAll("#supplierTable tbody tr").forEach(r=>{
-let article=r.children[2].children[0].value
-let sum=n(r.children[3].children[0].value||"0")
-supplierTotal+=sum
-structure[article]+=sum
-})
+let article=r.children[0].children[0].value;
+let sum=parseFloat(r.children[1].children[0].value)||0;
+adjusted[article]-=sum;
+});
 
-let gp_limit=base-supplierTotal
+// банковская структура
+let total=0;
+for(let key in adjusted){
+adjusted[key]=Math.round(adjusted[key]);
+total+=adjusted[key];
+document.getElementById("b"+key.replace(".","")).innerHTML=f(baseStructure[key]);
+document.getElementById("r"+key.replace(".","")).innerHTML=f(adjusted[key]);
+}
 
-let o=n(overhead.value)/100
-let p=n(profit.value)/100
+bTotal.innerHTML=f(Object.values(baseStructure).reduce((a,b)=>a+b,0));
+rTotal.innerHTML=f(total);
 
-let direct=Math.round(gp_limit/(1+o+p*(1+o)))
-let oh=Math.round(direct*o)
-let pr=Math.round((direct+oh)*p)
-let total=direct+oh+pr
+// управленка
+let ohPct=parseFloat(oh.value)/100;
+let prPct=parseFloat(pr.value)/100;
 
-o_limit.innerHTML=f(gp_limit)
-o_direct.innerHTML=f(direct)
-o_oh.innerHTML=f(oh)
-o_profit.innerHTML=f(pr)
-o_total.innerHTML=f(total)
+let direct=total/(1+ohPct+prPct*(1+ohPct));
+let ohSum=direct*ohPct;
+let prSum=(direct+ohSum)*prPct;
 
-// распределяем прямые равномерно (примерно) + корректируем поставщиками
-let part=direct/6
-
-s21.innerHTML=f(Math.round(part-structure["2.1"]))
-s221.innerHTML=f(Math.round(part-structure["2.2.1"]))
-s222.innerHTML=f(Math.round(part-structure["2.2.2"]))
-s23.innerHTML=f(Math.round(part-structure["2.3"]))
-s24.innerHTML=f(Math.round(part-structure["2.4"]))
-s25.innerHTML=f(Math.round(part-structure["2.5"]))
-
-let sumStructure=
-Math.round(part-structure["2.1"])+
-Math.round(part-structure["2.2.1"])+
-Math.round(part-structure["2.2.2"])+
-Math.round(part-structure["2.3"])+
-Math.round(part-structure["2.4"])+
-Math.round(part-structure["2.5"])
-
-s_total.innerHTML=f(sumStructure)
+uDirect.innerHTML=f(direct);
+uOh.innerHTML=f(ohSum);
+uPr.innerHTML=f(prSum);
+uTotal.innerHTML=f(direct+ohSum+prSum);
 
 }
 
-addSupplier()
-calculate()
+addSupplier();
+calculate();
 
 </script>
 </body>
